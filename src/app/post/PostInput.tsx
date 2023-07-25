@@ -27,9 +27,9 @@ export default function Todo({ children }: Props) {
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setInput("");
+    // setInput("");
     const response = await post({
-      userId: 1,
+      userId: "seulgilee",
       title: input,
       completed: false,
     });
