@@ -1,8 +1,9 @@
+import { Suspense } from "react";
 import styles from "./page.module.css";
 import PostInput from "./PostInput";
-import { Suspense } from "react";
-// import PostList from "./PostList";
-import PostList, { preload } from "./PostList";
+import PostListServerComponent from "./PostListSC";
+import PostListClientComponent from "./PostListCC";
+import Search from "./Search";
 interface User {
   userId: String;
   username: String;
@@ -19,23 +20,31 @@ async function getUserData(userId: String): Promise<User> {
   return res.json();
 }
 
-export default async function Home() {
-  console.log("server component");
-  const userId = "seulgilee";
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  console.log("server component", searchParams);
+  const userId = searchParams.userId as string;
   const user = await getUserData(userId);
-  preload(userId);
+
   return (
     <main className={styles.main}>
       <section className={styles.section}>
-        <div>{user.username}</div>
         <div>{user.userId}</div>
+        <div>{user.username}</div>
         <div>{user.email}</div>
       </section>
       <section className={styles.section}>
-        <PostInput />
-        <Suspense fallback={<div>loading..</div>}>
-          <PostList userId="seulgilee" />
+        <Search />
+        <PostListClientComponent />
+        <Suspense
+          fallback={<div style={{ border: "1px solid blue" }}>Loading..</div>}
+        >
+          <PostListServerComponent userId={userId} />
         </Suspense>
+        <PostInput />
       </section>
     </main>
   );

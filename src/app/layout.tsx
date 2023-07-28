@@ -28,6 +28,9 @@ export default function RootLayout({
               <li>
                 <Link href="/post">post</Link>
               </li>
+              <li>
+                <Link href="/postParallel">postParallel</Link>
+              </li>
             </ul>
           </nav>
         </section>

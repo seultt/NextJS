@@ -18,15 +18,15 @@ async function post(body: any) {
 }
 
 export default function Todo() {
-  const [input, setInput] = useState("");
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [postTitle, setPostTitle] = useState("");
+  const [userId, setUserId] = useState("");
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // setInput("");
     const response = await post({
-      userId: "seulgilee",
-      title: input,
+      userId: userId,
+      title: postTitle,
       completed: false,
     });
     console.log(response);
@@ -40,8 +40,15 @@ export default function Todo() {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              placeholder="userId"
+            />
+            <input
+              type="text"
+              value={postTitle}
+              onChange={(e) => setPostTitle(e.target.value)}
+              placeholder="post title"
             />
             <button type="submit">추가</button>
           </form>
