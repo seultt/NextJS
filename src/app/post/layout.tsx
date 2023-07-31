@@ -7,5 +7,8 @@ type Props = {
 };
 
 export default function PostLayout({ children }: Props) {
-  return <div style={{ border: "1px solid red" }}>{children}</div>;
+  console.log("post layout");
+  return (
+    <div style={{ border: "1px solid blue", padding: "1em" }}>{children}</div>
+  );
 }

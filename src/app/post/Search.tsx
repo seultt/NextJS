@@ -9,9 +9,9 @@ export default function Search() {
   const userId = searchParams.get("userId");
   console.log(userId);
   const [input, setInput] = useState(userId ?? "");
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    let pathname = "/postParallel";
+    let pathname = "/post";
     if (input) {
       pathname += "?userId=";
       pathname += input;
@@ -19,12 +19,13 @@ export default function Search() {
     router.push(pathname);
   };
   return (
-    <div>
+    <div style={{ border: "1px solid green", padding: "1em" }}>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          placeholder="Search UserId"
         />
       </form>
     </div>

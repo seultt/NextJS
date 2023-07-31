@@ -9,7 +9,7 @@ type Post = {
 };
 
 async function getPostList({ userId }: { userId: String }): Promise<any[]> {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
   let path = "http://localhost:9500/posts";
   if (userId) {
     path += "?userId=";
@@ -24,15 +24,16 @@ async function getPostList({ userId }: { userId: String }): Promise<any[]> {
   return res.json();
 }
 
-export default async function ToDoList({ userId }: { userId: string }) {
+export default async function PostListSC({ userId }: { userId: string }) {
   const data = await getPostList({ userId });
+  console.log("Post List SC");
   return (
     <>
       <h1>S.C Post</h1>
       <ul style={{ border: "1px solid blue" }}>
         {data.map((item) => (
           <li key={item._id}>
-            <Link href={"/postParallel/" + item._id}>
+            <Link href={"/post/" + item._id}>
               <span>{item.title}</span>
               <span> | </span>
               <span>{item.userId}</span>

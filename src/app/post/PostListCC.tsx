@@ -14,7 +14,7 @@ type Post = {
 
 async function getPostData({ userId }: { userId: String }): Promise<any[]> {
   console.log("getPostData");
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
   let path = "http://localhost:9500/posts";
   if (userId) {
     path += "?userId=";
@@ -29,7 +29,7 @@ async function getPostData({ userId }: { userId: String }): Promise<any[]> {
   return res.json();
 }
 
-export default function ToDoList() {
+export default function PostListCC() {
   const [data, setData] = useState<any[]>([]);
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId") || "";
@@ -57,7 +57,7 @@ function List({ data }: { data: any[] }) {
     <ul style={{ border: "1px solid green" }}>
       {data.map((item) => (
         <li key={item._id}>
-          <Link href={"/postParallel/" + item._id}>
+          <Link href={"/post/" + item._id}>
             <span>{item.title}</span>
             <span> | </span>
             <span>{item.userId}</span>

@@ -17,16 +17,16 @@ async function post(body: any) {
   return res.json();
 }
 
-export default function Todo() {
-  const [input, setInput] = useState("");
-  const [isRefreshing, setIsRefreshing] = useState(false);
+export default function PostInput() {
+  const [postTitle, setPostTitle] = useState("");
+  const [userId, setUserId] = useState("");
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // setInput("");
     const response = await post({
-      userId: "seulgilee",
-      title: input,
+      userId: userId,
+      title: postTitle,
       completed: false,
     });
     console.log(response);
@@ -34,19 +34,24 @@ export default function Todo() {
   };
   console.log("use client test$$");
   return (
-    <>
-      <div>
-        <section>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <button type="submit">추가</button>
-          </form>
-        </section>
-      </div>
-    </>
+    <div style={{ border: "1px solid green", padding: "1em" }}>
+      <section>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={postTitle}
+            onChange={(e) => setPostTitle(e.target.value)}
+            placeholder="post title"
+          />
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            placeholder="userId"
+          />
+          <button type="submit">추가</button>
+        </form>
+      </section>
+    </div>
   );
 }

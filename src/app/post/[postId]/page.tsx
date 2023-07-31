@@ -1,4 +1,4 @@
-async function getPostData(postId: string): Primise<any> {
+async function getPostData(postId: string): Promise<any> {
   const res = await fetch("http://localhost:9500/posts/" + postId, {
     cache: "no-store",
   });
