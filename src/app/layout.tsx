@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +32,9 @@ export default function RootLayout({
             </ul>
           </nav>
         </section>
-        <section>{children}</section>
+        <Providers>
+          <section>{children}</section>
+        </Providers>
       </body>
     </html>
   );

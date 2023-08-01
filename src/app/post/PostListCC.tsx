@@ -4,6 +4,8 @@ import Link from "next/link";
 import DeleteButton from "./DeleteButton";
 import { Suspense, useEffect, useState, use } from "react";
 import { useSearchParams } from "next/navigation";
+import PostListComponent from "./PostListComponent";
+import { useQuery } from "@tanstack/react-query";
 
 type Post = {
   _id: string;
@@ -30,9 +32,14 @@ async function getPostData({ userId }: { userId: String }): Promise<any[]> {
 }
 
 export default function PostListCC() {
-  const [data, setData] = useState<any[]>([]);
+  const [posts, setData] = useState<any[]>([]);
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId") || "";
+  // const { data: posts, isLoading } = useQuery<Post[]>({
+  //   queryKey: ["posts"],
+  //   queryFn: () => getPostData({ userId }),
+  // });
+  console.log(posts);
   useEffect(() => {
     getPostData({ userId })
       .then((result) => {
@@ -44,28 +51,23 @@ export default function PostListCC() {
   return (
     <>
       <h1>C.C Post</h1>
-      <Suspense fallback={<div>loading...</div>}>
-        <List data={data} />
-      </Suspense>
+      <List data={posts} />
     </>
   );
 }
-function List({ data }: { data: any[] }) {
+function List({
+  data,
+}: // isLoading,
+{
+  data: Post[] | undefined;
+  // isLoading: boolean;
+}) {
   console.log(data);
-  if (!data.length) return <div>no data</div>;
+  // if (isLoading) return <div>...loading</div>;
+  if (!data) return <div> noData</div>;
   return (
-    <ul style={{ border: "1px solid green" }}>
-      {data.map((item) => (
-        <li key={item._id}>
-          <Link href={"/post/" + item._id}>
-            <span>{item.title}</span>
-            <span> | </span>
-            <span>{item.userId}</span>
-          </Link>
-          {/* onClick 시 refetch 해주는 prop 을 넘겨줘야함 */}
-          <DeleteButton postId={item._id} />
-        </li>
-      ))}
-    </ul>
+    <div style={{ border: "1px solid green", padding: "1em" }}>
+      <PostListComponent data={data} />
+    </div>
   );
 }

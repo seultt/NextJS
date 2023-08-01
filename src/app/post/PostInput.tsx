@@ -2,6 +2,7 @@
 
 import { FormEvent, useState, ReactElement, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 async function post(body: any) {
   const res = await fetch("http://localhost:9500/posts", {
@@ -14,25 +15,42 @@ async function post(body: any) {
       "Content-type": "application/json; charset=UTF-8",
     },
   });
-  return res.json();
+  console.log(res);
+  if (res.ok) {
+    return {
+      data: res.json(),
+      requestSuccess: res.ok,
+    };
+  }
 }
 
 export default function PostInput() {
   const [postTitle, setPostTitle] = useState("");
   const [userId, setUserId] = useState("");
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { data, mutate } = useMutation((newData: any) => post(newData), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+      router.refresh();
+    },
+  });
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setInput("");
-    const response = await post({
-      userId: userId,
-      title: postTitle,
-      completed: false,
-    });
-    console.log(response);
-    router.refresh();
+    mutate({ userId: userId, title: postTitle, completed: false });
   };
-  console.log("use client test$$");
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   // setInput("");
+  //   const response = await post({
+  //     userId: userId,
+  //     title: postTitle,
+  //     completed: false,
+  //   });
+  //   if (response?.requestSuccess) {
+  //     router.refresh();
+  //   }
+  // };
   return (
     <div style={{ border: "1px solid green", padding: "1em" }}>
       <section>

@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+// import { Suspense } from "react";
 import styles from "./page.module.css";
 import PostInput from "./PostInput";
 import PostListServerComponent from "./PostListSC";
@@ -39,11 +39,11 @@ export default async function PostPage({
       <section className={styles.section}>
         <Search />
         <PostListClientComponent />
-        <Suspense
+        <PostListServerComponent userId={userId} />
+        {/* <Suspense
           fallback={<div style={{ border: "1px solid blue" }}>Loading..</div>}
         >
-          <PostListServerComponent userId={userId} />
-        </Suspense>
+        </Suspense> */}
         <PostInput />
       </section>
     </main>
