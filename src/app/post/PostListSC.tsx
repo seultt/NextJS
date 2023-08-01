@@ -1,5 +1,6 @@
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
+import PostListComponent from "./PostListComponent";
 
 type Post = {
   _id: string;
@@ -28,20 +29,8 @@ export default async function PostListSC({ userId }: { userId: string }) {
   const data = await getPostList({ userId });
   console.log("Post List SC");
   return (
-    <>
-      <h1>S.C Post</h1>
-      <ul style={{ border: "1px solid blue" }}>
-        {data.map((item) => (
-          <li key={item._id}>
-            <Link href={"/post/" + item._id}>
-              <span>{item.title}</span>
-              <span> | </span>
-              <span>{item.userId}</span>
-            </Link>
-            <DeleteButton postId={item._id} />
-          </li>
-        ))}
-      </ul>
-    </>
+    <div style={{ border: "1px solid blue", padding: "1em" }}>
+      <PostListComponent data={data} />
+    </div>
   );
 }
